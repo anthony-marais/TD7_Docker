@@ -1,0 +1,12 @@
+MYSQL_ROOT_PASSWORD="root"
+MYSQL_USER="user"
+MYSQL_USER_PASSWORD="user"
+MYSQL_DATABASE="sakila"
+
+MB_DB_TYPE="mysql"
+MB_DB_DBNAME="sakila"
+MB_DB_PORT="3306"
+MB_DB_USER="user"
+MB_DB_PASS="user"
+MB_DB_HOST="db"
+MB_DB_FILE="/metabase.db"
