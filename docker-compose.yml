@@ -51,7 +51,6 @@ services:
       - "${MB_PORT}:3000"
     depends_on:
       - metabase-db
-      - mysql_db
 
 networks:
   metabase:
