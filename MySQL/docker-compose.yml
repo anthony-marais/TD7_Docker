@@ -1,0 +1,51 @@
+version: '3'
+services:
+
+  mysql_db:
+    image: mysql:latest
+    container_name: mysql
+    hostname: mysql
+    ports: 
+       - "4406:3306"    
+    env_file:
+      - .env
+    command: ['--default-authentication-plugin=mysql_native_password']
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_USER_PASSWORD: user
+      MYSQL_DATABASE: sakila
+    volumes:
+      - ../dbdata:/var/lib/mysql
+      - ./init/1_sakila.sql:/docker-entrypoint-initdb.d/1_sakila.sql
+      - ./init/2_sakila.sql:/docker-entrypoint-initdb.d/2_sakila.sql
+
+
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    env_file:
+      - .env
+    restart: always
+    environment:
+      MB_DB_TYPE: mysql
+      MB_DB_CONNECTION_URI: mysql://root:root@mysql_db:4460/metabseappdb
+      MB_DB_DBNAME: metabseappdb
+      MB_DB_PORT: 4460
+      MB_DB_USER: root
+      MB_DB_PASS: root
+      MB_DB_HOST: mysql_db
+      MB_DB_FILE: /metabase-data/metabase.db
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql_db
+    volumes:
+      - ../metabasedata:/metabase-data
+      - ./metabase-sql-lite/:/metabase
+
+volumes:
+  dbdata:
+  metabasedata:
